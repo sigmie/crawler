@@ -1,0 +1,40 @@
+// For format details, see https://aka.ms/vscode-remote/devcontainer.json or the definition README at
+// https://github.com/microsoft/vscode-dev-containers/tree/master/containers/php-7
+{
+	"name": "PHP 7.4",
+	"dockerFile": "Dockerfile",
+	"mounts": [
+		"source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind,consistency=cached"
+	],
+	// Use 'settings' to set *default* container specific settings.json values on container create. 
+	// You can edit these settings after create using File > Preferences > Settings > Remote.
+	"settings": {
+		"terminal.integrated.shell.linux": "/bin/bash"
+	},
+	// Use 'appPort' to create a container with published ports. If the port isn't working, be sure
+	// your server accepts connections from all interfaces (0.0.0.0 or '*'), not just localhost.
+	// "appPort": [],
+	// Uncomment the next line to run commands after the container is created.
+	"postCreateCommand": "curl -L https://cs.symfony.com/download/php-cs-fixer-v2.phar -o php-cs-fixer && chmod a+x php-cs-fixer && mv php-cs-fixer /usr/local/bin/php-cs-fixer && export PATH=~/.composer/vendor/bin:$PATH",
+	// Uncomment the next line to have VS Code connect as an existing non-root user in the container. 
+	// On Linux, by default, the container user's UID/GID will be updated to match your local user. See
+	// https://aka.ms/vscode-remote/containers/non-root for details on adding a non-root user if none exist.
+	// "remoteUser": "vscode",
+	// Add the IDs of extensions you want installed when the container is created in the array below.
+	"extensions": [
+		"chenxsan.vscode-standardjs",
+		"sleistner.vscode-fileutils",
+		"eamodio.gitlens",
+		"njpwerner.autodocstring",
+		"dotjoshjohnson.xml",
+		"mishkinf.vscode-edits-history",
+		"nikitakunevich.snippet-creator",
+		"phproberto.vscode-php-getters-setters",
+		"patbenatar.advanced-new-file",
+		"shd101wyy.markdown-preview-enhanced",
+		"felixfbecker.php-debug",
+		"ms-azuretools.vscode-docker",
+		"mehedidracula.php-namespace-resolver",
+		"bmewburn.vscode-intelephense-client"
+	]
+}
