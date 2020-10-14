@@ -4,74 +4,82 @@ declare(strict_types=1);
 
 namespace Sigmie\Crawler;
 
-use Sigmie\Crawler\Navigator;
+use Generator;
+use Sigmie\Crawler\Content\HTML;
+use Sigmie\Crawler\Contracts\Exporter;
+use Sigmie\Crawler\Contracts\Formatter;
 use Symfony\Component\Panther\Client as Browser;
-use Throwable;
-use Facebook\WebDriver\WebDriverElement as Element;
-use Normalizer;
-use PHP_CodeSniffer\Standards\Squiz\Sniffs\ControlStructures\ForEachLoopDeclarationSniff;
-use PHPUnit\Util\TestDox\HtmlResultPrinter;
 
-class Spider
+class Spider extends Navigator
 {
-    protected Config $config;
+    protected ElementFinder $locator;
 
-    protected Scraper $scraper;
+    protected string $contentSelector;
 
-    protected Navigator $navigator;
+    protected Formatter $formatter;
 
-    protected ElementLocator $locator;
+    protected Exporter $exporter;
 
-    protected HTMLExtracter $htmlExtracter;
-
-    protected array $links = [];
-
-    public function __construct()
+    public static function create(): Spider
     {
-        $this->navigator = new Navigator(Browser::createChromeClient());
-        $this->scraper = new Scraper($this->navigator);
-        $this->htmlExtracter = new HTMLExtracter();
+        $browser = Browser::createChromeClient();
+
+        return new static($browser);
     }
 
-    public static function create()
+    public function navigateOver(string $class): self
     {
-        return new static();
-    }
+        $navigationElement = $this->locator->findElement($class);
 
-    public function navigateOver(string $class)
-    {
-        $navElement = $this->locator->findElementByClass($class);
+        $aElements = $this->locator->findChildElements($navigationElement, 'a');
 
-        $aElements = $this->locator->findChildElementsByTag($navElement, 'a');
-
-        $this->links = $this->htmlExtracter->elementsAttribute($aElements, 'href');
+        $this->links = array_map(fn ($element) => $element->getAttribute('href'), $aElements);
 
         return $this;
     }
 
-    public function scrape(string $class)
+    public function extractContent(string $class): self
+    {
+        $this->contentSelector = $class;
+
+        return $this;
+    }
+
+    public function format(Formatter $formatter): self
+    {
+        $this->formatter = $formatter;
+
+        return $this;
+    }
+
+    public function formattedPages(): Generator
     {
         foreach ($this->links as $link) {
 
             $this->visit($link);
 
-            $element = $this->locator->findElementByClass($class);
+            $element = $this->locator->findElement($this->contentSelector);
 
-            $html = $this->htmlExtracter->elementHTML($element);
+            $html = new HTML($element->getAttribute('innerHTML'));
 
-            $normalized = (new DefaultNormalizer)->normalize($html);
-
-            $formated = (new DefaultFormater($this->navigator->getCurrentUrl()))->formatScrappedResults($normalized);
-
-            dd($formated);
+            yield $this->formatter->formatHTML($html, $this->currentUrl);
         }
     }
 
-    public function visit(string $uri)
+    public function export(Exporter $exporter): void
     {
-        $this->navigator->visit($uri);
+        $this->exporter = $exporter;
 
-        $this->locator = new ElementLocator($this->navigator->getCrawler());
+        foreach ($this->formattedPages() as $pageData) {
+            $this->exporter->exportPage($pageData);
+        }
+    }
+
+    public function visit(string $uri): self
+    {
+        parent::visit($uri);
+
+        $this->locator = new ElementFinder($this->browser->getCrawler());
 
         return $this;
     }

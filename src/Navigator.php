@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Sigmie\Crawler;
 
-use Facebook\WebDriver\WebDriverElement as Element;
 use Sigmie\Crawler\Contracts\Navigator as NavigatorInterface;
 use Symfony\Component\Panther\Client as Browser;
 use Symfony\Component\Panther\DomCrawler\Crawler;
@@ -21,15 +20,9 @@ class Navigator implements NavigatorInterface
         $this->browser = $browser;
     }
 
-    public function getCrawler(): Crawler
-    {
-        return $this->browser->getCrawler();
-    }
-
     public function visit(string $url)
     {
         $this->currentUrl = $url;
-
         try {
             $this->browser->request('GET', $url);
         } catch (Throwable $throwable) {
