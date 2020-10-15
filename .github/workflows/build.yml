@@ -1,0 +1,38 @@
+name: Test
+
+on: [push]
+
+jobs:
+
+  test:
+    runs-on: ubuntu-18.04
+    if: github.ref != 'refs/heads/master'
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Cache PHP dependencies
+      uses: actions/cache@v1
+      with:
+       path: ~/.composer
+       key: composer-${{ hashFiles('**/composer.json') }}
+
+    - name: Install curl zip
+      run: sudo apt-get update && sudo apt-get install -y curl zip
+
+    - name: Install composer
+      run: |
+          curl -sS https://getcomposer.org/installer | sudo php -- --install-dir=/usr/local/bin --filename=composer
+          sudo composer self-update
+
+    - name: Validate composer and install dependecies
+      run: composer validate && composer install -q --optimize-autoloader --no-ansi --no-interaction --no-scripts --no-suggest --no-progress --prefer-dist
+
+    - name: PHPStan
+      run: vendor/bin/phpstan analyse src
+
+    - name: PHPCS
+      run: vendor/bin/phpcs --standard=standard.xml src
+
+    - name: PHPUnit
+      run: vendor/bin/phpunit -c phpunit.xml
