@@ -7,8 +7,6 @@
 [![Quality Score][ico-code-quality]][link-code-quality]
 [![Total Downloads][ico-downloads]][link-downloads]
 
-**Note:** Replace ```Nicoorfi``` ```nicoorfi``` ```https://github.com/nicoorfi``` ```nico@sigmie.com``` ```sigmie``` ```crawler``` ```PHP Website Crawler for crawling websites and export their HTML contents into a file.``` with their correct values in [README.md](README.md), [CHANGELOG.md](CHANGELOG.md), [CONTRIBUTING.md](CONTRIBUTING.md), [LICENSE.md](LICENSE.md) and [composer.json](composer.json) files, then delete this line. You can run `$ php prefill.php` in the command line to make all replacements at once. Delete the file prefill.php as well.
-
 This is where your description should go. Try and limit it to a paragraph or two, and maybe throw in a mention of what
 PSRs you support to avoid any confusion with users and contributors.
 
@@ -38,6 +36,8 @@ $ composer require sigmie/crawler
 ## Usage
 
 ``` php
+docker run -it -e "CONFIG=$(cat /path/to/your/config.json | jq -r tostring)" sigmie/crawler
+
 $skeleton = new Sigmie\Crawler();
 echo $skeleton->echoPhrase('Hello, League!');
 ```
