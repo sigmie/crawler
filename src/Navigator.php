@@ -6,7 +6,6 @@ namespace Sigmie\Crawler;
 
 use Sigmie\Crawler\Contracts\Navigator as NavigatorInterface;
 use Symfony\Component\Panther\Client as Browser;
-use Symfony\Component\Panther\DomCrawler\Crawler;
 use Throwable;
 
 class Navigator implements NavigatorInterface

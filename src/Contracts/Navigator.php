@@ -2,7 +2,6 @@
 
 namespace Sigmie\Crawler\Contracts;
 
-use Symfony\Component\Panther\DomCrawler\Crawler;
 
 interface Navigator
 {

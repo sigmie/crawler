@@ -6,62 +6,124 @@ namespace Sigmie\Crawler;
 
 use Sigmie\Crawler\Content\HTML;
 use Sigmie\Crawler\Contracts\Formatter as FormatterInterface;
-use Sigmie\Crawler\Regex\Regexer;
+use Sigmie\Crawler\Format\AbstractFormatter;
 
-class Formatter extends Regexer implements FormatterInterface
+class Formatter extends AbstractFormatter implements FormatterInterface
 {
-    public function formatHTML(HTML $crawledData, string $url): array
+    public function formatHTML(HTML $html, string $url): array
     {
-        $crawledData = $this->normalize($crawledData);
+        $titleLevelContents = $this->contentLevelTitleArray($html);
 
-        $hits = [];
+        $pageRecords = [];
 
-        foreach ($crawledData as $index => $data) {
+        foreach ($titleLevelContents as $index => $data) {
             $level = $data['level'];
             $title = $data['title'];
             $content = $data['content'];
-
-            $foo = [];
             $previousIndex = $index - 1;
+            $headings = [];
 
-            $foo[] = $title;
-            $currentLevel = $level;
+            $headings[] = $title;
+            $currentTitleLevel = $level;
 
-            while (isset($crawledData[$previousIndex])) {
-                if ($crawledData[$previousIndex]['level'] < $currentLevel) {
+            while ($this->arrayHasIndex($titleLevelContents, $previousIndex)) {
 
-                    $currentLevel = $crawledData[$previousIndex]['level'];
+                $previousData = $titleLevelContents[$previousIndex];
+                $previousLevel = $previousData['level'];
+                $previousTitle = $previousData['title'];
 
-                    $foo[] = $crawledData[$previousIndex]['title'];
+                if ($previousLevel < $currentTitleLevel) {
+                    $headings[] = $previousTitle;
+                    $currentTitleLevel = $previousLevel;
                 }
 
                 $previousIndex--;
             }
 
-            $hits[] = [
+            $hierarchy = $this->createHierarchy($headings);
+
+            $pageRecords[] = [
                 'content' => $content,
-                'hierarchy' => $foo,
+                'hierarchy' => $hierarchy,
                 'type' => 'content',
                 'url' => $url
             ];
         }
 
-        return $hits;
+        return $pageRecords;
     }
 
-    public function normalize(HTML $html)
+    protected function createHierarchy(array $headings)
+    {
+        $reversed = array_reverse($headings);
+
+        return array_map(fn ($value, $index) => [$index + 1 => $value], $reversed, array_keys($reversed));
+    }
+
+    private function arrayHasIndex($array, $index): bool
+    {
+        return isset($array[$index]);
+    }
+
+    protected function formatTitle(string $title): string
+    {
+        $title = $this->stripCodeTags($title);
+        $title = $this->stripHtmlTags($title);
+        $title = $this->stripLineBreaks($title);
+        $title = $this->strip('#', $title);
+        $title = $this->stripLeadingAndTrailingSpaces($title);
+
+        return $title;
+    }
+
+    protected function formatContent(string $content): string
+    {
+        $content = $this->stripCodeTags($content);
+        $content = $this->stripHtmlTags($content);
+        $content = $this->stripLineBreaks($content);
+        $content = $this->stripLeadingAndTrailingSpaces($content);
+
+        return $content;
+    }
+
+    protected function contentLevelTitleArray(HTML $html): array
     {
         $html = (string) $html;
 
-        preg_match_all("/(?<titles><(?<tag>(h1|h2|h3|h4|h5|h6).*?) ?[a-z-0-9\"=]*>(.*)<\/\g{tag}>)/U", $html, $titleHtmlMatch);
+        $htmlHeadings = $this->extractHeadings($html);
 
-        $titles = $titleHtmlMatch['titles'];
+        $contents = $this->extractHeadingContents($htmlHeadings, $html);
+
+        $res = array_combine($htmlHeadings, $contents);
+
+        $result = [];
+
+        foreach ($res as $title => $content) {
+
+            $level = $this->extractHeadingImportance($title);
+            $title = $this->formatTitle($title);
+            $content = $this->formatContent($content);
+
+            $result[] = [
+                'level' => $level,
+                'title' => $title,
+                'content' => $content,
+            ];
+        }
+
+        return $result;
+    }
+
+    protected function extractHeadingContents($htmlHeadings, $html)
+    {
         $contents = [];
 
-        foreach ($titles as $index => $title) {
+        foreach ($htmlHeadings as $index => $title) {
 
             if ($index === 0) {
-                $html = str_replace($title, '', $html);
+                $html = $this->strip($title, $html);
+                $rest = $html;
+
                 continue;
             }
 
@@ -69,39 +131,15 @@ class Formatter extends Regexer implements FormatterInterface
 
             $contents[] = $content;
 
-            if (!empty(trim($content))) {
-                $html = str_replace($content, '', $html);
+            if ($this->isNotEmptyString($content)) {
+                $html = $this->strip($content, $html);
             }
 
-            $html = str_replace($title, '', $html);
+            $html = $this->strip($title, $html);
         }
 
         $contents[] = $rest;
 
-        $res = array_combine($titles, $contents);
-
-        $result = [];
-
-        foreach ($res as $title => $content) {
-
-            $level = $this->findLevel($title);
-
-            $title = $this->removeCodeTags($title);
-            $content = $this->removeCodeTags($content);
-
-            $title = $this->removeHtmlTags($title);
-            $content = $this->removeHtmlTags($content);
-
-            $title = $this->removeLiveBreaks($title);
-            $content = $this->removeLiveBreaks($content);
-
-            $result[] = [
-                'level' => $level,
-                'title' => trim($title),
-                'content' => trim($content),
-            ];
-        }
-
-        return $result;
+        return $contents;
     }
 }

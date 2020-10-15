@@ -17,13 +17,13 @@ class JSON implements Exporter
         // create the file if needed
         if (file_exists($this->filename)) {
             unlink($this->filename);
-            touch($this->filename);
         }
+
+        touch($this->filename);
     }
 
     public function exportPage($record)
     {
-
         // read the file if present
         $handle = fopen($this->filename, 'r+');
 
