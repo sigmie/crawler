@@ -4,9 +4,8 @@ on: [push]
 
 jobs:
 
-  test:
+  build:
     runs-on: ubuntu-18.04
-    if: github.ref != 'refs/heads/master'
 
     steps:
     - uses: actions/checkout@v2
@@ -23,16 +22,24 @@ jobs:
     - name: Install composer
       run: |
           curl -sS https://getcomposer.org/installer | sudo php -- --install-dir=/usr/local/bin --filename=composer
-          sudo composer self-update
+          sudo composer self-update --snapshot
 
-    - name: Validate composer and install dependecies
-      run: composer validate && composer install -q --optimize-autoloader --no-ansi --no-interaction --no-scripts --no-suggest --no-progress --prefer-dist
+    - name: Install dependecies
+      run: composer install -q --optimize-autoloader --no-ansi --no-interaction --no-scripts --no-suggest --no-progress --prefer-dist
 
     - name: PHPStan
-      run: vendor/bin/phpstan analyse src
+      run: vendor/bin/phpstan analyse -l 6 src
 
     - name: PHPCS
-      run: vendor/bin/phpcs --standard=standard.xml src
+      run: vendor/bin/phpcs --standard=PSR12 src
 
     - name: PHPUnit
       run: vendor/bin/phpunit -c phpunit.xml
+
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v1
+      with:
+       file: build/logs/clover.xml
+       flags: unittests
+       name: codecov-umbrella
+       fail_ci_if_error: true

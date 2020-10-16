@@ -4,13 +4,12 @@ declare(strict_types=1);
 
 namespace Sigmie\Crawler;
 
-use Sigmie\Crawler\Content\HTML;
 use Sigmie\Crawler\Contracts\Formatter as FormatterInterface;
 use Sigmie\Crawler\Format\AbstractFormatter;
 
 class Formatter extends AbstractFormatter implements FormatterInterface
 {
-    public function formatHTML(HTML $html, string $url): array
+    public function formatHTML(string $html, string $url): array
     {
         $titleLevelContents = $this->contentLevelTitleArray($html);
 
@@ -86,10 +85,8 @@ class Formatter extends AbstractFormatter implements FormatterInterface
         return $content;
     }
 
-    protected function contentLevelTitleArray(HTML $html): array
+    protected function contentLevelTitleArray(string $html): array
     {
-        $html = (string) $html;
-
         $htmlHeadings = $this->extractHeadings($html);
 
         $contents = $this->extractHeadingContents($htmlHeadings, $html);

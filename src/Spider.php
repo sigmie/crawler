@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Sigmie\Crawler;
 
 use Generator;
-use Sigmie\Crawler\Content\HTML;
 use Sigmie\Crawler\Contracts\Exporter;
 use Sigmie\Crawler\Contracts\Formatter;
 use Symfony\Component\Panther\Client as Browser;
@@ -60,7 +59,7 @@ class Spider extends Navigator
 
             $element = $this->locator->findElement($this->contentSelector);
 
-            $html = new HTML($element->getAttribute('innerHTML'));
+            $html = $element->getAttribute('innerHTML');
 
             yield $this->formatter->formatHTML($html, $this->currentUrl);
         }

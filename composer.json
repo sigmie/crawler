@@ -18,6 +18,7 @@
     ],
     "require": {
         "php": "~7.2",
+        "phpstan/phpstan": "^0.12.49",
         "symfony/panther": "^0.8.0",
         "symfony/var-dumper": "^5.1"
     },
