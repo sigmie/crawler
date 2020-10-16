@@ -1,8 +1,10 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Sigmie\Crawler\Contracts;
 
 interface Exporter
 {
-    public function exportPage($data);
+    public function exportPage(array $data): void;
 }

@@ -4,11 +4,15 @@ declare(strict_types=1);
 
 namespace Sigmie\Crawler;
 
+use PHP_CodeSniffer\Standards\Squiz\Sniffs\ControlStructures\ForEachLoopDeclarationSniff;
 use Sigmie\Crawler\Contracts\Formatter as FormatterInterface;
 use Sigmie\Crawler\Format\AbstractFormatter;
 
 class Formatter extends AbstractFormatter implements FormatterInterface
 {
+    /**
+     * @return array[]
+     */
     public function formatHTML(string $html, string $url): array
     {
         $titleLevelContents = $this->contentLevelTitleArray($html);
@@ -26,7 +30,6 @@ class Formatter extends AbstractFormatter implements FormatterInterface
             $currentTitleLevel = $level;
 
             while ($this->arrayHasIndex($titleLevelContents, $previousIndex)) {
-
                 $previousData = $titleLevelContents[$previousIndex];
                 $previousLevel = $previousData['level'];
                 $previousTitle = $previousData['title'];
@@ -52,16 +55,18 @@ class Formatter extends AbstractFormatter implements FormatterInterface
         return $pageRecords;
     }
 
-    protected function createHierarchy(array $headings)
+    protected function createHierarchy(array $headings): array
     {
         $reversed = array_reverse($headings);
 
-        return array_map(fn ($value, $index) => [$index + 1 => $value], $reversed, array_keys($reversed));
-    }
+        $result = [];
 
-    private function arrayHasIndex($array, $index): bool
-    {
-        return isset($array[$index]);
+        foreach ($reversed as $index => $heading) {
+            $level = $index + 1;
+            $result[$level] = $heading;
+        }
+
+        return $result;
     }
 
     protected function formatTitle(string $title): string
@@ -70,9 +75,7 @@ class Formatter extends AbstractFormatter implements FormatterInterface
         $title = $this->stripHtmlTags($title);
         $title = $this->stripLineBreaks($title);
         $title = $this->strip('#', $title);
-        $title = $this->stripLeadingAndTrailingSpaces($title);
-
-        return $title;
+        return $this->stripLeadingAndTrailingSpaces($title);
     }
 
     protected function formatContent(string $content): string
@@ -80,9 +83,7 @@ class Formatter extends AbstractFormatter implements FormatterInterface
         $content = $this->stripCodeTags($content);
         $content = $this->stripHtmlTags($content);
         $content = $this->stripLineBreaks($content);
-        $content = $this->stripLeadingAndTrailingSpaces($content);
-
-        return $content;
+        return $this->stripLeadingAndTrailingSpaces($content);
     }
 
     protected function contentLevelTitleArray(string $html): array
@@ -96,7 +97,6 @@ class Formatter extends AbstractFormatter implements FormatterInterface
         $result = [];
 
         foreach ($res as $title => $content) {
-
             $level = $this->extractHeadingImportance($title);
             $title = $this->formatTitle($title);
             $content = $this->formatContent($content);
@@ -111,12 +111,12 @@ class Formatter extends AbstractFormatter implements FormatterInterface
         return $result;
     }
 
-    protected function extractHeadingContents($htmlHeadings, $html)
+    protected function extractHeadingContents(array $htmlHeadings, string $html): array
     {
         $contents = [];
+        $rest = null;
 
         foreach ($htmlHeadings as $index => $title) {
-
             if ($index === 0) {
                 $html = $this->strip($title, $html);
                 $rest = $html;
@@ -138,5 +138,10 @@ class Formatter extends AbstractFormatter implements FormatterInterface
         $contents[] = $rest;
 
         return $contents;
+    }
+
+    private function arrayHasIndex(array $array, int $index): bool
+    {
+        return isset($array[$index]);
     }
 }

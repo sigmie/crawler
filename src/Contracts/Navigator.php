@@ -1,9 +1,10 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Sigmie\Crawler\Contracts;
 
-
 interface Navigator
 {
-    public function visit(string $url);
+    public function visit(string $url): self;
 }

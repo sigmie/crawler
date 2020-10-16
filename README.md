@@ -1,7 +1,7 @@
 <p align="center" style="padding-bottom:1rem"><img src="https://res.cloudinary.com/markos-nikolaos-orfanos/image/upload/c_scale,h_120,w_120/v1586943534/Sigmie/black-transparent_i6bbix.png"></p>
 
 <p align="center">
-<a href="https://github.com/sigmie/cli/actions?query=workflow%3ABuild">
+<a href="https://github.com/sigmie/crawler/actions?query=workflow%3ABuild">
 <img alt="GitHub Workflow Status" src="https://img.shields.io/github/workflow/status/sigmie/crawler/Build">
 </a>
 
@@ -24,20 +24,6 @@
 This is where your description should go. Try and limit it to a paragraph or two, and maybe throw in a mention of what
 PSRs you support to avoid any confusion with users and contributors.
 
-## Structure
-
-If any of the following are applicable to your project, then the directory structure should follow industry best practices by being named the following.
-
-```
-bin/        
-build/
-docs/
-config/
-src/
-tests/
-vendor/
-```
-
 
 ## Install
 
@@ -54,8 +40,8 @@ $ docker run -it -e "CONFIG=$(cat /path/to/your/config.json | jq -r tostring)" s
 ```
 
 ``` php
-
 $skeleton = new Sigmie\Crawler();
+
 echo $skeleton->echoPhrase('Hello, League!');
 ```
 

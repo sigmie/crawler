@@ -19,7 +19,7 @@ class Navigator implements NavigatorInterface
         $this->browser = $browser;
     }
 
-    public function visit(string $url)
+    public function visit(string $url): self
     {
         $this->currentUrl = $url;
         try {
@@ -29,6 +29,8 @@ class Navigator implements NavigatorInterface
 
             throw $throwable;
         }
+
+        return $this;
     }
 
     public function getCurrentUrl(): string

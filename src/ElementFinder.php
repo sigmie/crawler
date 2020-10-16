@@ -13,7 +13,7 @@ class ElementFinder implements ElementLocatorInterface
 {
     protected Crawler $crawler;
 
-    public function __construct(Crawler &$crawler)
+    public function __construct(Crawler $crawler)
     {
         $this->crawler = $crawler;
     }

@@ -19,11 +19,16 @@ class Spider extends Navigator
 
     protected Exporter $exporter;
 
+    /**
+     * @var string[]
+     */
+    protected array $links;
+
     public static function create(): Spider
     {
         $browser = Browser::createChromeClient();
 
-        return new static($browser);
+        return new self($browser);
     }
 
     public function navigateOver(string $class): self
@@ -51,10 +56,12 @@ class Spider extends Navigator
         return $this;
     }
 
+    /**
+     * @return Generator|array[]
+     */
     public function formattedPages(): Generator
     {
         foreach ($this->links as $link) {
-
             $this->visit($link);
 
             $element = $this->locator->findElement($this->contentSelector);

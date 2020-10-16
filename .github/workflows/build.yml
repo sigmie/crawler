@@ -1,4 +1,4 @@
-name: Test
+name: Build
 
 on: [push]
 
@@ -10,22 +10,21 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name: Cache PHP dependencies
+    - name: Get Composer Cache Directory
+      id: composer-cache
+      run: |
+        echo "::set-output name=dir::$(composer config cache-files-dir)"
+
+    - name: Cache Composer Downloads
       uses: actions/cache@v1
       with:
-       path: ~/.composer
+       path: ${{ steps.composer-cache.outputs.dir }}
        key: composer-${{ hashFiles('**/composer.json') }}
+
+    - uses: php-actions/composer@v2
 
     - name: Install curl zip
       run: sudo apt-get update && sudo apt-get install -y curl zip
-
-    - name: Install composer
-      run: |
-          curl -sS https://getcomposer.org/installer | sudo php -- --install-dir=/usr/local/bin --filename=composer
-          sudo composer self-update --snapshot
-
-    - name: Install dependecies
-      run: composer install -q --optimize-autoloader --no-ansi --no-interaction --no-scripts --no-suggest --no-progress --prefer-dist
 
     - name: PHPStan
       run: vendor/bin/phpstan analyse -l 6 src
@@ -34,7 +33,7 @@ jobs:
       run: vendor/bin/phpcs --standard=PSR12 src
 
     - name: PHPUnit
-      run: vendor/bin/phpunit -c phpunit.xml
+      run: ls && vendor/bin/phpunit -c ./phpunit.xml
 
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v1

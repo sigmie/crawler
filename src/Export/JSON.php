@@ -10,7 +10,7 @@ class JSON implements Exporter
 {
     protected string $filename;
 
-    public function __construct($filename)
+    public function __construct(string $filename)
     {
         $this->filename = $filename;
 
@@ -22,7 +22,7 @@ class JSON implements Exporter
         touch($this->filename);
     }
 
-    public function exportPage($record)
+    public function exportPage(array $record): void
     {
         // read the file if present
         $handle = fopen($this->filename, 'r+');
