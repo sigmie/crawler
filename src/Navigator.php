@@ -10,11 +10,17 @@ use Throwable;
 
 class Navigator implements NavigatorInterface
 {
-    protected Browser $browser;
+    /**
+     * @var Browser
+     */
+    protected $browser;
 
     protected string $currentUrl;
 
-    public function __construct(Browser $browser)
+    /**
+     * @param Browser $browser
+     */
+    public function __construct($browser)
     {
         $this->browser = $browser;
     }
@@ -22,6 +28,7 @@ class Navigator implements NavigatorInterface
     public function visit(string $url): self
     {
         $this->currentUrl = $url;
+
         try {
             $this->browser->request('GET', $url);
         } catch (Throwable $throwable) {

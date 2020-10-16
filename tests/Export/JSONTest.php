@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Sigmie\Crawler\Tests\Export;
 
 use PHPUnit\Framework\TestCase;
+use PHPUnit\Util\Json as UtilJson;
 use Sigmie\Crawler\Contracts\Exporter;
 use Sigmie\Crawler\Export\JSON;
 
@@ -25,6 +26,20 @@ class JSONTest extends TestCase
         parent::setUp();
 
         $this->exporter = new JSON($this->filename);
+    }
+
+    /**
+     * @test
+     */
+    public function file_is_deleted_if_exists()
+    {
+        file_put_contents($this->filename, '{}');
+
+        new JSON('foo.json');
+
+        $content = file_get_contents($this->filename);
+
+        $this->assertEmpty($content);
     }
 
     /**
