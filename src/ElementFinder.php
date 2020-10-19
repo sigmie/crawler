@@ -7,22 +7,23 @@ namespace Sigmie\Crawler;
 use Facebook\WebDriver\WebDriverBy;
 use Facebook\WebDriver\WebDriverElement as Element;
 use Sigmie\Crawler\Contracts\ElementFinder as ElementLocatorInterface;
-use Symfony\Component\Panther\DomCrawler\Crawler;
+use Facebook\WebDriver\WebDriver;
+use Facebook\WebDriver\WebDriverSearchContext;
 
 class ElementFinder implements ElementLocatorInterface
 {
-    protected Crawler $crawler;
+    protected WebDriverSearchContext $webdriver;
 
-    public function __construct(Crawler $crawler)
+    public function __construct(WebDriverSearchContext $crawler)
     {
-        $this->crawler = $crawler;
+        $this->webdriver = $crawler;
     }
 
     public function findElement(string $selector): Element
     {
         $by = WebDriverBy::cssSelector($selector);
 
-        return $this->crawler->findElement($by);
+        return $this->webdriver->findElement($by);
     }
 
     public function findChildElements(Element $element, string $selector): array

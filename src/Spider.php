@@ -59,7 +59,7 @@ class Spider extends Navigator
     /**
      * @return Generator|array[]
      */
-    public function formattedPages(): Generator
+    protected function formattedPages(): Generator
     {
         foreach ($this->links as $link) {
             $this->visit($link);

@@ -2,16 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Sigmie\Crawler;
+namespace Sigmie\Crawler\Format;
 
-use PHP_CodeSniffer\Standards\Squiz\Sniffs\ControlStructures\ForEachLoopDeclarationSniff;
 use Sigmie\Crawler\Contracts\Formatter as FormatterInterface;
 use Sigmie\Crawler\Format\AbstractFormatter;
 
-class Formatter extends AbstractFormatter implements FormatterInterface
+class Basic extends AbstractFormatter implements FormatterInterface
 {
     /**
-     * @return array[]
+     * @return array<array-key, array<array-key, mixed>>
      */
     public function formatHTML(string $html, string $url): array
     {
@@ -75,6 +74,7 @@ class Formatter extends AbstractFormatter implements FormatterInterface
         $title = $this->stripHtmlTags($title);
         $title = $this->stripLineBreaks($title);
         $title = $this->strip('#', $title);
+
         return $this->stripLeadingAndTrailingSpaces($title);
     }
 

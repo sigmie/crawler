@@ -22,7 +22,7 @@ abstract class Strip
 
     public function stripLineBreaks(string $string): string
     {
-        return preg_replace("/\r|\n/", "", $string);
+        return preg_replace("/\r|\n/", " ", $string);
     }
 
     public function stripLeadingAndTrailingSpaces(string $string): string

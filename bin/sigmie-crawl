@@ -1,0 +1,17 @@
+#!/usr/bin/env php
+<?php
+// application.php
+
+require __DIR__ . '/../vendor/autoload.php';
+
+use Sigmie\Crawler\Commands\Crawl;
+use Symfony\Component\Console\Application;
+
+$application = new Application();
+
+// ... register commands
+$application->addCommands([
+    new Crawl,
+]);
+
+$application->run();

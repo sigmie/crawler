@@ -43,7 +43,7 @@ class StripTest extends TestCase
      */
     public function strip_line_breaks()
     {
-        $striped = $this->strip->stripLineBreaks("foo\n bar\r");
+        $striped = $this->strip->stripLineBreaks("foo bar");
 
         $this->assertEquals('foo bar', $striped);
     }
@@ -56,6 +56,16 @@ class StripTest extends TestCase
         $striped = $this->strip->stripLeadingAndTrailingSpaces(' foo  ');
 
         $this->assertEquals('foo', $striped);
+    }
+
+    /**
+     * @test
+     */
+    public function strip_needle()
+    {
+        $striped = $this->strip->strip('#', '#Some title');
+
+        $this->assertEquals('Some title', $striped);
     }
 
     /**

@@ -19,6 +19,7 @@
     "require": {
         "php": "~7.2",
         "phpstan/phpstan": "^0.12.49",
+        "symfony/console": "^5.1",
         "symfony/panther": "^0.8.0",
         "symfony/var-dumper": "^5.1"
     },
@@ -48,5 +49,8 @@
     },
     "config": {
         "sort-packages": true
-    }
+    },
+    "bin": [
+        "bin/sigmie-crawl"
+    ]
 }

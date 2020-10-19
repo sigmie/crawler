@@ -42,7 +42,6 @@ class NavigatorTest extends TestCase
             ['request', 'close'],
         );
 
-
         $this->navigator = new Navigator($this->browserMock);
     }
 
