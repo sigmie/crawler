@@ -1,0 +1,80 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Sigmie\Crawler\Tests;
+
+use Closure;
+use PHPUnit\Framework\ExpectationFailedException;
+use PHPUnit\Framework\TestCase;
+use SebastianBergmann\RecursionContext\InvalidArgumentException;
+use Sigmie\Crawler\Format\AbstractFormatter;
+use Sigmie\Crawler\Format\Strip;
+use Sigmie\Crawler\Formatter;
+use stdClass;
+use Symfony\Component\BrowserKit\AbstractBrowser;
+
+class StripTest extends TestCase
+{
+    /**
+     * @var Strip
+     */
+    private $strip;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+
+        $this->strip = $this->getMockForAbstractClass(Strip::class);
+    }
+
+    /**
+     * @test
+     */
+    public function strip_code_tags()
+    {
+        $stripped =  $this->strip->stripCodeTags('<code>foo</code>');
+
+        $this->assertEmpty($stripped);
+    }
+
+    /**
+     * @test
+     */
+    public function strip_line_breaks()
+    {
+        $striped = $this->strip->stripLineBreaks("foo\n bar\r");
+
+        $this->assertEquals('foo bar', $striped);
+    }
+
+    /**
+     * @test
+     */
+    public function strip_leading_and_trailing_spaces()
+    {
+        $striped = $this->strip->stripLeadingAndTrailingSpaces(' foo  ');
+
+        $this->assertEquals('foo', $striped);
+    }
+
+    /**
+     * @test
+     */
+    public function strip_white_spaces()
+    {
+        $striped = $this->strip->stripWhitespaces(' foo bar  baz');
+
+        $this->assertEquals('foobarbaz', $striped);
+    }
+
+    /**
+     * @test
+     */
+    public function strip_html_tags()
+    {
+        $striped = $this->strip->stripHtmlTags('<h1>Some title. </h1><p>And some body.</pw>');
+
+        $this->assertEquals('Some title. And some body.', $striped);
+    }
+}
