@@ -7,7 +7,7 @@ namespace Sigmie\Crawler\Tests\Export;
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Util\Json as UtilJson;
 use Sigmie\Crawler\Contracts\Exporter;
-use Sigmie\Crawler\Export\JSON;
+use Sigmie\Crawler\Exports\JSON;
 
 class JSONTest extends TestCase
 {

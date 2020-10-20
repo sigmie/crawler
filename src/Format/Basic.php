@@ -5,13 +5,10 @@ declare(strict_types=1);
 namespace Sigmie\Crawler\Format;
 
 use Sigmie\Crawler\Contracts\Formatter as FormatterInterface;
-use Sigmie\Crawler\Format\AbstractFormatter;
+use Sigmie\Crawler\Format\AbstractFormat;
 
-class Basic extends AbstractFormatter implements FormatterInterface
+class Basic extends AbstractFormat implements FormatterInterface
 {
-    /**
-     * @return array<array-key, array<array-key, mixed>>
-     */
     public function formatHTML(string $html, string $url): array
     {
         $titleLevelContents = $this->contentLevelTitleArray($html);

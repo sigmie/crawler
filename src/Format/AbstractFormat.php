@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Sigmie\Crawler\Format;
 
-abstract class AbstractFormatter extends Extract
+use Sigmie\Crawler\Utils\Extract;
+
+abstract class AbstractFormat extends Extract
 {
     public function isEmptyString(string $string): bool
     {

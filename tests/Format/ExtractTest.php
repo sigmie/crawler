@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Sigmie\Crawler\Tests;
 
 use PHPUnit\Framework\TestCase;
-use Sigmie\Crawler\Format\Extract;
+use Sigmie\Crawler\Utils\Extract;
 
 class ExtractTest extends TestCase
 {

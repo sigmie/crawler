@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Sigmie\Crawler\Format;
+namespace Sigmie\Crawler\Utils;
 
 abstract class Strip
 {

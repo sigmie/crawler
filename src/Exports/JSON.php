@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Sigmie\Crawler\Export;
+namespace Sigmie\Crawler\Exports;
 
 use Sigmie\Crawler\Contracts\Exporter;
 

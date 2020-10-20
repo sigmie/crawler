@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Sigmie\Crawler\Commands;
 
 use Exception;
-use Sigmie\Crawler\Export\JSON;
-use Sigmie\Crawler\Format\Basic;
+use Sigmie\Crawler\Exports\JSON;
+use Sigmie\Crawler\Utils\Basic;
 use Sigmie\Crawler\Spider;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -15,7 +15,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class Crawl extends Command
 {
-    protected static $defaultName = 'sigmie:crawler:run';
+    protected static $defaultName = 'sigmie:crawler:crawl ';
 
     protected function configure()
     {

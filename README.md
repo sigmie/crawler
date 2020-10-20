@@ -39,10 +39,19 @@ $ composer require sigmie/crawler
 $ docker run -it -e "CONFIG=$(cat /path/to/your/config.json | jq -r tostring)" sigmie/crawler
 ```
 
-``` php
-$skeleton = new Sigmie\Crawler();
+Config example:
 
-echo $skeleton->echoPhrase('Hello, League!');
+``` json
+{
+    "start_url": "https://docs.sigmie.com",
+    "format": "basic",
+    "export": {
+        "format": "json",
+        "path": "./foo.json"
+    },
+    "navigation_selector": ".sidebar-links",
+    "content_selector": ".content__default"
+}
 ```
 
 ## Change log

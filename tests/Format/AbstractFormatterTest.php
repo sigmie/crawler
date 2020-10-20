@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace Sigmie\Crawler\Tests;
 
 use PHPUnit\Framework\TestCase;
-use Sigmie\Crawler\Format\AbstractFormatter;
+use Sigmie\Crawler\Format\AbstractFormat;
 
 class AbstractFormatterTest extends TestCase
 {
     /**
-     * @var AbstractFormatter
+     * @var AbstractFormat
      */
     private $formatter;
 
@@ -18,7 +18,7 @@ class AbstractFormatterTest extends TestCase
     {
         parent::setUp();
 
-        $this->formatter = $this->getMockForAbstractClass(AbstractFormatter::class);
+        $this->formatter = $this->getMockForAbstractClass(AbstractFormat::class);
     }
 
     /**
