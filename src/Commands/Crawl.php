@@ -6,7 +6,7 @@ namespace Sigmie\Crawler\Commands;
 
 use Exception;
 use Sigmie\Crawler\Exports\JSON;
-use Sigmie\Crawler\Utils\Basic;
+use Sigmie\Crawler\Format\Basic;
 use Sigmie\Crawler\Spider;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
