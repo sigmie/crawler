@@ -23,4 +23,4 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 RUN composer global require sigmie/crawler
 
 # Sigmie crawler command
-CMD /root/.composer/vendor/bin/sigmie-crawl
+ENTRYPOINT /root/.composer/vendor/sigmie/crawler/entrypoint.sh
