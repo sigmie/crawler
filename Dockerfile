@@ -14,3 +14,13 @@ ENV PANTHER_NO_SANDBOX 1
 
 # Not mandatory, but recommended
 ENV PANTHER_CHROME_ARGUMENTS='--disable-dev-shm-usage'
+
+# Install composer
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer && \
+    composer self-update --snapshot
+
+# Install sigmie crawler
+RUN composer global require sigmie/crawler
+
+# Sigmie crawler command
+CMD /root/.composer/vendor/bin/sigmie-crawl
