@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Sigmie\Crawler\Tests;
+namespace Sigmie\Crawler\Tests\Utils;
 
 use PHPUnit\Framework\TestCase;
 use Sigmie\Crawler\Utils\Extract;

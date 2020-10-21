@@ -6,9 +6,8 @@ namespace Sigmie\Crawler;
 
 use Facebook\WebDriver\WebDriverBy;
 use Facebook\WebDriver\WebDriverElement as Element;
-use Sigmie\Crawler\Contracts\ElementFinder as ElementLocatorInterface;
-use Facebook\WebDriver\WebDriver;
 use Facebook\WebDriver\WebDriverSearchContext;
+use Sigmie\Crawler\Contracts\ElementFinder as ElementLocatorInterface;
 
 class ElementFinder implements ElementLocatorInterface
 {

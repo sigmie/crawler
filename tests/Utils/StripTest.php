@@ -2,17 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Sigmie\Crawler\Tests;
+namespace Sigmie\Crawler\Tests\Utils;
 
-use Closure;
-use PHPUnit\Framework\ExpectationFailedException;
 use PHPUnit\Framework\TestCase;
-use SebastianBergmann\RecursionContext\InvalidArgumentException;
-use Sigmie\Crawler\Utils\AbstractFormatter;
 use Sigmie\Crawler\Utils\Strip;
-use Sigmie\Crawler\Formatter;
-use stdClass;
-use Symfony\Component\BrowserKit\AbstractBrowser;
 
 class StripTest extends TestCase
 {

@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Sigmie\Crawler;
 
 use Generator;
-use Sigmie\Crawler\Contracts\Exporter;
-use Sigmie\Crawler\Contracts\Formatter;
+use Sigmie\Crawler\Contracts\Export;
+use Sigmie\Crawler\Contracts\Format;
 use Symfony\Component\Panther\Client as Browser;
 
 class Spider extends Navigator
@@ -15,9 +15,9 @@ class Spider extends Navigator
 
     protected string $contentSelector;
 
-    protected Formatter $formatter;
+    protected Format $formatter;
 
-    protected Exporter $exporter;
+    protected Export $exporter;
 
     /**
      * @var string[]
@@ -49,9 +49,27 @@ class Spider extends Navigator
         return $this;
     }
 
-    public function format(Formatter $formatter): self
+    public function format(Format $formatter): self
     {
         $this->formatter = $formatter;
+
+        return $this;
+    }
+
+    public function export(Export $exporter): void
+    {
+        $this->exporter = $exporter;
+
+        foreach ($this->formattedPages() as $pageData) {
+            $this->exporter->exportPage($pageData);
+        }
+    }
+
+    public function visit(string $uri): self
+    {
+        parent::visit($uri);
+
+        $this->locator = new ElementFinder($this->browser->getCrawler());
 
         return $this;
     }
@@ -70,23 +88,5 @@ class Spider extends Navigator
 
             yield $this->formatter->formatHTML($html, $this->currentUrl);
         }
-    }
-
-    public function export(Exporter $exporter): void
-    {
-        $this->exporter = $exporter;
-
-        foreach ($this->formattedPages() as $pageData) {
-            $this->exporter->exportPage($pageData);
-        }
-    }
-
-    public function visit(string $uri): self
-    {
-        parent::visit($uri);
-
-        $this->locator = new ElementFinder($this->browser->getCrawler());
-
-        return $this;
     }
 }

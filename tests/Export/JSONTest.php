@@ -5,8 +5,7 @@ declare(strict_types=1);
 namespace Sigmie\Crawler\Tests\Export;
 
 use PHPUnit\Framework\TestCase;
-use PHPUnit\Util\Json as UtilJson;
-use Sigmie\Crawler\Contracts\Exporter;
+use Sigmie\Crawler\Contracts\Export;
 use Sigmie\Crawler\Exports\JSON;
 
 class JSONTest extends TestCase
@@ -17,7 +16,7 @@ class JSONTest extends TestCase
     private $filename = 'foo.json';
 
     /**
-     * @var Exporter
+     * @var Export
      */
     private $exporter;
 
@@ -26,6 +25,13 @@ class JSONTest extends TestCase
         parent::setUp();
 
         $this->exporter = new JSON($this->filename);
+    }
+
+    public function tearDown(): void
+    {
+        if (file_exists($this->filename)) {
+            unlink($this->filename);
+        }
     }
 
     /**
@@ -69,12 +75,5 @@ class JSONTest extends TestCase
         $actualJson = json_decode(file_get_contents($this->filename), true);
 
         $this->assertEquals($expectedJson, $actualJson);
-    }
-
-    public function tearDown(): void
-    {
-        if (file_exists($this->filename)) {
-            unlink($this->filename);
-        }
     }
 }

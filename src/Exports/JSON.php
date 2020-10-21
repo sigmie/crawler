@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Sigmie\Crawler\Exports;
 
-use Sigmie\Crawler\Contracts\Exporter;
+use Sigmie\Crawler\Contracts\Export;
 
-class JSON implements Exporter
+class JSON implements Export
 {
     /**
      * File name

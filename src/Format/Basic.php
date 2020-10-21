@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace Sigmie\Crawler\Format;
 
-use Sigmie\Crawler\Contracts\Formatter as FormatterInterface;
-use Sigmie\Crawler\Format\AbstractFormat;
+use Sigmie\Crawler\Contracts\Format as FormatterInterface;
 
 class Basic extends AbstractFormat implements FormatterInterface
 {

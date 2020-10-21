@@ -4,28 +4,25 @@ declare(strict_types=1);
 
 namespace Sigmie\Crawler\Tests;
 
-use Facebook\WebDriver\WebDriver;
 use Facebook\WebDriver\WebDriverBy;
 use Facebook\WebDriver\WebDriverElement;
 use Facebook\WebDriver\WebDriverSearchContext;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use RuntimeException;
-use Sigmie\Crawler\Contracts\Exporter;
-use Sigmie\Crawler\Contracts\Formatter;
+use Sigmie\Crawler\Contracts\Export;
+use Sigmie\Crawler\Contracts\Format;
 use Sigmie\Crawler\Spider;
 use Symfony\Component\BrowserKit\AbstractBrowser;
-use Throwable;
 
 class SpiderTest extends TestCase
 {
     /**
-     * @var Formatter|MockObject
+     * @var Format|MockObject
      */
     private $formatterMock;
 
     /**
-     * @var Exporter|MockObject
+     * @var Export|MockObject
      */
     private $exportMock;
 
@@ -71,8 +68,8 @@ class SpiderTest extends TestCase
 
         $this->browserMock->method('getCrawler')->willReturn($this->searchContext);
 
-        $this->formatterMock = $this->createMock(Formatter::class);
-        $this->exportMock = $this->createMock(Exporter::class);
+        $this->formatterMock = $this->createMock(Format::class);
+        $this->exportMock = $this->createMock(Export::class);
 
         $this->spider = new Spider($this->browserMock);
     }

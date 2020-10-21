@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Sigmie\Crawler\Tests;
+namespace Sigmie\Crawler\Tests\Format;
 
 use PHPUnit\Framework\TestCase;
 use Sigmie\Crawler\Format\AbstractFormat;

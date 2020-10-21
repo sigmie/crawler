@@ -6,11 +6,9 @@ namespace Sigmie\Crawler\Tests;
 
 use Exception;
 use PHPUnit\Framework\MockObject\MockObject;
-use PHPUnit\Framework\MockObject\RuntimeException;
 use PHPUnit\Framework\TestCase;
 use Sigmie\Crawler\Navigator;
 use Symfony\Component\BrowserKit\AbstractBrowser;
-use Throwable;
 
 class NavigatorTest extends TestCase
 {

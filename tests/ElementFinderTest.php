@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Sigmie\Crawler\Tests;
 
-use Facebook\WebDriver\WebDriver;
 use Facebook\WebDriver\WebDriverBy;
 use Facebook\WebDriver\WebDriverElement;
 use Facebook\WebDriver\WebDriverSearchContext;
