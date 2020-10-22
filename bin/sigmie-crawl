@@ -27,12 +27,13 @@ if ($autoload === false) {
 }
 
 use Sigmie\Crawler\Commands\Crawl;
+use Sigmie\Crawler\Spider;
 use Symfony\Component\Console\Application;
 
 $application = new Application();
 
 $application->addCommands([
-    new Crawl,
+    new Crawl(Spider::create()),
 ]);
 
 $application->run();

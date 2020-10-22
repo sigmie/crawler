@@ -20,6 +20,15 @@ class Crawl extends Command
 {
     protected static $defaultName = 'sigmie:crawler:crawl ';
 
+    protected Spider $spider;
+
+    public function __construct(Spider $spider)
+    {
+        parent::__construct();
+
+        $this->spider = $spider;
+    }
+
     /**
      * @return void
      */
@@ -37,9 +46,7 @@ class Crawl extends Command
     {
         $config = $this->readConfig($input->getArgument('config'));
 
-        $spider = Spider::create();
-
-        $spider->visit($config['start_url'])
+        $this->spider->visit($config['start_url'])
             ->navigateOver($config['navigation_selector'])
             ->extractContent($config['content_selector'])
             ->format($this->pickFormat($config['format']))
