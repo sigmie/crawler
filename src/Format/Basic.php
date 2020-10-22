@@ -42,7 +42,6 @@ class Basic extends AbstractFormat implements FormatterInterface
             $pageRecords[] = [
                 'content' => $content,
                 'hierarchy' => $hierarchy,
-                'type' => 'content',
                 'url' => $url
             ];
         }

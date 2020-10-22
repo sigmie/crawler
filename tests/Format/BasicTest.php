@@ -43,7 +43,6 @@ class BasicTest extends TestCase
                 'hierarchy' => [
                     1 => 'Some title'
                 ],
-                'type' => 'content',
                 'url' => 'https://example.com'
             ],
             [
@@ -52,7 +51,6 @@ class BasicTest extends TestCase
                     1 => 'Some title',
                     2 => 'Some other title'
                 ],
-                'type' => 'content',
                 'url' => 'https://example.com'
             ],
         ];

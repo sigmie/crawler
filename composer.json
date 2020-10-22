@@ -1,7 +1,7 @@
 {
     "name": "sigmie/crawler",
     "type": "library",
-    "description": "PHP Website Crawler for crawling websites and export their HTML contents.",
+    "description": "Sigmie Crawler is a PHP package for crawling websites and exporting their HTML contents.",
     "keywords": [
         "sigmie",
         "crawler"
