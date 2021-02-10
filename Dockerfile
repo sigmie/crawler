@@ -23,8 +23,8 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 RUN composer global require sigmie/crawler
 
 # Make entrypoint and chrome driver executable
-RUN chmod +x /root/.composer/vendor/sigmie/crawler/entrypoint.sh && \
-    chmod +x /root/.composer/vendor/symfony/panther/chromedriver-bin/chromedriver_linux64
+RUN chmod +x /root/.config/composer/vendor/sigmie/crawler/entrypoint.sh && \
+    chmod +x /root/.config/composer/vendor/sigmie/crawler/drivers/chromedriver
 
 # Sigmie crawler command
-ENTRYPOINT ["/root/.composer/vendor/sigmie/crawler/entrypoint.sh"]
+#ENTRYPOINT ["/root/.config/composer/vendor/sigmie/crawler/entrypoint.sh"]

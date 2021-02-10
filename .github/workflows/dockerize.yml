@@ -1,14 +1,9 @@
 name: Dockerize
 
 on:
-  push:
-   tags:
-    - 'v*.*.*'
   create:
    tags:
     - 'v*.*.*'
-
- 
 
 jobs:
 
