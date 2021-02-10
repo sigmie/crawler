@@ -30,4 +30,8 @@ jobs:
       run: docker login docker.pkg.github.com --username nicoorfi --password ${{ secrets.GITHUB_TOKEN }}
 
     - name: Push images
-      run:  docker push docker.pkg.github.com/sigmie/crawler/crawler:${RELEASE_VERSION:1}
+      run: |
+        docker push docker.pkg.github.com/sigmie/crawler/crawler:${MINOR_VERSION}
+        docker push docker.pkg.github.com/sigmie/crawler/crawler:${MAJOR_VERSION}
+        docker push docker.pkg.github.com/sigmie/crawler/crawler:${PATCH_VERSION}
+
