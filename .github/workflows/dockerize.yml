@@ -24,7 +24,7 @@ jobs:
           echo "MAJOR_VERSION="$(echo ${RELEASE_VERSION:1} | sed 's/\.[0-9]*\.[0-9]*$//') >> $GITHUB_ENV
 
     - name: Build image
-      run: docker build -t ghcr.io/sigmie/crawler:${PATCH_VERSION} -t ghcr.io/sigmie/crawler:${MINOR_VERSION} -t ghcr.io/sigmie/crawler:${MAJOR_VERSION} .
+      run: docker build -t ghcr.io/sigmie/crawler:${PATCH_VERSION} -t ghcr.io/sigmie/crawler:${MINOR_VERSION} -t ghcr.io/sigmie/crawler:${MAJOR_VERSION} -t ghcr.io/sigmie/crawler:latest  .
 
     - name: Authenticate docker
       run: echo ${{ secrets.CR_PAT }} | docker login ghcr.io -u nicoorfi --password-stdin
@@ -34,4 +34,5 @@ jobs:
         docker push ghcr.io/sigmie/crawler:${MINOR_VERSION}
         docker push ghcr.io/sigmie/crawler:${MAJOR_VERSION}
         docker push ghcr.io/sigmie/crawler:${PATCH_VERSION}
+        docker push ghcr.io/sigmie/crawler:latest
 
