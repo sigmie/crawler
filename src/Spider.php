@@ -61,7 +61,9 @@ class Spider extends Navigator
         $this->exporter = $exporter;
 
         foreach ($this->formattedPages() as $pageData) {
-            $this->exporter->exportPage($pageData);
+            foreach ($pageData as $doc) {
+                $this->exporter->exportPage($doc);
+            }
         }
     }
 
