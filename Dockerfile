@@ -1,5 +1,7 @@
 FROM php:latest
 
+LABEL org.opencontainers.image.source https://github.com/sigmie/crawler
+
 # Install packages and enable php zip extension
 RUN apt-get update && apt-get install -y libzip-dev zlib1g-dev chromium wget gnupg lsof && docker-php-ext-install zip
 
