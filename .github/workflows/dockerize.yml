@@ -27,7 +27,7 @@ jobs:
       run: docker build -t ghcr.io/sigmie/crawler:${PATCH_VERSION} -t ghcr.io/sigmie/crawler:${MINOR_VERSION} -t ghcr.io/sigmie/crawler:${MAJOR_VERSION} .
 
     - name: Authenticate docker
-      run: docker login docker.pkg.github.com --username nicoorfi --password ${{ secrets.GITHUB_TOKEN }}
+      run: echo ${{ secrets.CR_PAT }} | docker login ghcr.io -u nicoorfi --password-stdin
 
     - name: Push images
       run: |
