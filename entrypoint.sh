@@ -1,3 +1,3 @@
 #!/bin/bash
 
-exec "/root/.composer/vendor/bin/sigmie-crawl" $@
+exec "/root/.config/composer/vendor/bin/sigmie-crawl" $@

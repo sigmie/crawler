@@ -27,4 +27,4 @@ RUN chmod +x /root/.config/composer/vendor/sigmie/crawler/entrypoint.sh && \
     chmod +x /root/.config/composer/vendor/sigmie/crawler/drivers/chromedriver
 
 # Sigmie crawler command
-#ENTRYPOINT ["/root/.config/composer/vendor/sigmie/crawler/entrypoint.sh"]
+ENTRYPOINT ["/root/.config/composer/vendor/sigmie/crawler/drivers/chromedriver"]
