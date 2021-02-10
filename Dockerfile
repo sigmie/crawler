@@ -28,5 +28,7 @@ RUN composer global require sigmie/crawler
 RUN chmod +x /root/.config/composer/vendor/sigmie/crawler/entrypoint.sh && \
     chmod +x /root/.config/composer/vendor/sigmie/crawler/drivers/chromedriver
 
+RUN /root/.config/composer/vendor/bin/bdi detect drivers
+
 # Sigmie crawler command
 ENTRYPOINT ["/root/.config/composer/vendor/sigmie/crawler/entrypoint.sh"]
